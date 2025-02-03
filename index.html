@@ -16,24 +16,18 @@
         <source src="q.ogg" type="audio/ogg" />
         您的浏览器不支持音频播放
     </audio>
-    <script>
-    const apiUrl = 'https://api.likepoems.com/ana/yiyan/';
-
-    // 使用fetch函数获取API数据
-    fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        const newsList = document.getElementById('news-list');
-
-        // 将API数据插入到HTML页面中
-        data.forEach(news => {
-          const li = document.createElement('li');
-          li.textContent = news.title;
-          newsList.appendChild(li);
-        });
-      });
-  </script>
-<img src="https://api.likepoems.com/ana/yiyan/">
+  <script>
+  var xhr = new XMLHttpRequest();
+  xhr.open('get', 'https://api.likepoems.com/ana/yiyan');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      var data = JSON.parse(xhr.responseText);
+      var gushici = document.getElementById('gushici');
+      gushici.innerText = data.content;
+    }
+  };
+  xhr.send();
+</script>
     <hr />
     <h1>传送门</h1>
     <h2>没想好...</h2>
