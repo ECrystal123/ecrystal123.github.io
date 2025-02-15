@@ -7,6 +7,59 @@
 </head> 
 <style>
 /*总结式CSS（jiushi*/    
+body {
+            transition: background-color 0.5s, color 0.5s;
+            background-color: white;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+ 
+        body.dark-mode {
+            background-color: black;
+            color: white;
+        }
+ 
+        .toggle-switch {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            width: 40px;
+            height: 20px;
+            border: 2px solid black;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.5s;
+        }
+ 
+        .toggle-knob {
+            position: absolute;
+            top: 1.5px;
+            left: 2px;
+            height: 13px;
+            width: 13px;
+            background-color: black;
+            border-radius: 50%;
+            transition: all 0.5s;
+        }
+ 
+        body.dark-mode .toggle-switch {
+            border-color: white;
+        }
+ 
+        body.dark-mode .toggle-knob {
+            left: 24px;
+            background-color: white;
+        }
+ 
+        .content {
+            text-align: center;
+        }
+
 @font-face {
     font-family: 'WebFont';
     src: url('1.ttf') format('truetype');
@@ -38,6 +91,10 @@ footer {
     font-family: 'WebFont';
     }    
 </style>
+<body id="body">
+    <div class="toggle-switch" id="toggleSwitch">
+        <div class="toggle-knob" id="toggleKnob"></div>
+    </div>
       <script src="https://api.fuchenboke.cn/api/dianjibaozha.js"></script>
     <h1>Ender_crystal123</h1>
     <img src="IMG_6297.jpeg" width=100 /><br/>
@@ -62,10 +119,15 @@ footer {
     color: #ffffff;
     font-family: 'WebFont';
     text-decoration: none;" href="https://icp.gov.moe/?keyword=20256662" target="_blank">萌ICP备20256662号</a></footer>
+    <script>
+        document.getElementById('toggleSwitch').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
 </body>
 </html>
 <!-- TODO
 1.API背景
-2.黑夜模式
+$2.黑夜模式
 $3.一大堆CSS
 -->
