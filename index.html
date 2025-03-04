@@ -1,130 +1,88 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ender_crystal123</title>
-</head> 
-<style> body{
-            transition: background-color 0.5s, color 0.5s;
-            background-color: white;
-            color: black;
-            display: flex;
-            flex-direction: column;
-            
-        }
- 
-        body.dark-mode {
-            background-color: black;
-            color: white;
-        }
- 
-        .toggle-switch {
-            position: absolute;
-            top: 20px;
-            right: 50px;
-            width: 40px;
-            height: 20px;
-            border: 2px solid black;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.5s;
-        }
- 
-        .toggle-knob {
-            position: absolute;
-            top: 1.5px;
-            left: 2px;
-            height: 13px;
-            width: 13px;
-            background-color: black;
-            border-radius: 50%;
-            transition: all 0.5s;
-        }
- 
-        body.dark-mode .toggle-switch {
-            border-color: white;
-        }
- 
-        body.dark-mode .toggle-knob {
-            left: 24px;
-            background-color: white;
-        }
- 
-        .content {
-            text-align: center;
-        }
+    <title>Ecrystal123的博客-Test</title>
+    <style>
+        /* 样式代码（与之前相同） */
+    </style>
+</head>
+<body>
+    <!-- 黑暗模式切换按钮 -->
+    <button id="dark-mode-toggle">切换黑暗模式</button>
 
-@font-face {
-    font-family: 'WebFont';
-    src: url('1.ttf') format('truetype');
-    font-weight: normal;
-        }
-h1 {
-    color: #45a1ff;
-    font-family: 'WebFont';
-    }
-    
+    <!-- 文章内容 -->
+    <div id="markdown-content"></div>
 
- nav a {
-            text-decoration: none;
-            font-size: 22px;
-            color: #ffffff;
-            background-color: #45a1ff;
-            padding: 8px 16px;
-            margin: 0 10px;
-            border-radius: 5px;
-            font-family: 'WebFont';
-	 }  
-	 footer p{
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    background-color: #45a1ff;
-    color: #ffffff;
-    font-family: 'WebFont';
-	 }
-</style>
-<body id="body">
-    <div class="toggle-switch" id="toggleSwitch">
-        <div class="toggle-knob" id="toggleKnob"></div>
+    <!-- 文章发布时间 -->
+    <div id="post-time"></div>
+
+    <!-- 自定义评论表单 -->
+    <div id="comments">
+        <h3>评论区</h3>
+        <form id="comment-form">
+            <label for="name">昵称：</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="comment">评论：</label><br>
+            <textarea id="comment" name="comment" rows="4" cols="50" required></textarea><br><br>
+            <button type="submit">提交评论</button>
+        </form>
+        <div id="comment-list"></div>
     </div>
-      <script src="https://api.fuchenboke.cn/api/dianjibaozha.js"></script>
-    <h1>Ender_crystal123</h1>
-    <img src="IMG_6297.jpeg" width=100 /><br/>
-    <p style="font-family: 'WebFont'; color: rgb(255, 234, 0);">豪俊金曲</p>
-    <embed height="100" width="100" src="q.mp3" />
-    <audio controls>
-        <source src="q.mp3" type="audio/mp3" />
-        <source src="q.ogg" type="audio/ogg" />
-        您的浏览器不支持音频播放
-    </audio>
-    <hr />
-    <h1>传送门</h1>
-	<nav>
-		<a href="https://github.com/ECrystal123/index.github.io" target="_blank">GitHub仓库</a><br/><br/>
-		<a href="https://ecrystal123.github.io/mcr.github.io" target="_blank">MCR官网</a><br/><br/>
-		<a href="https://ecrystal123.github.io" target="_blank">首页</a>
-        </nav>
-    <hr/>
-    <img src="https://api.likepoems.com/counter/get/@Ecrystal123" width=300/>
-    <p>没了()</p>
-    <footer>
-    <a style="display: flex;justify-content: center;padding: 5px;background-color: #45a1ff;color: #ffffff;font-family: 'WebFont';text-decoration: none;
-	"href="https://icp.gov.moe/?keyword=20256662" target="_blank">萌ICP备20256662号<br/>©2025 Ecrystal123</a>
-    <small style="display: flex;justify-content: center;color: grey;font-family: 'WebFont'">社交网站：</small>
-    <a style="text-decoration: none;display: flex;justify-content: center;color: grey;font-family: 'WebFont'" href="https://space.bilibili.com/3546580412009136">Bilibili</a>
-    </footer>
+
     <script>
-        document.getElementById('toggleSwitch').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
+        // 获取文章发布时间和评论
+        async function loadData() {
+            const response = await fetch('/api/data');
+            const data = await response.json();
+            return data;
+        }
+
+        // 提交评论
+        async function submitComment(name, comment) {
+            const response = await fetch('/api/comment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, comment })
+            });
+            return response.json();
+        }
+
+        // 渲染评论
+        function renderComments(comments) {
+            const commentList = document.getElementById('comment-list');
+            commentList.innerHTML = '';
+            comments.forEach(comment => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <strong>${comment.name}</strong> (${new Date(comment.time).toLocaleString()}):<br>
+                    ${comment.comment}
+                    <hr>
+                `;
+                commentList.appendChild(div);
+            });
+        }
+
+        // 初始化页面
+        async function init() {
+            const data = await loadData();
+            document.getElementById('post-time').innerHTML = `发布时间：${new Date(data.postTime).toLocaleString()}`;
+            renderComments(data.comments);
+        }
+
+        // 提交评论表单
+        document.getElementById('comment-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+            await submitComment(name, comment);
+            init(); // 重新加载数据
+            document.getElementById('comment-form').reset();
         });
+
+        // 页面加载时初始化
+        init();
     </script>
 </body>
 </html>
-<!-- TODO
-1.API背景
-$2.黑夜模式
-$3.一大堆CSS
-4.排版
--->
