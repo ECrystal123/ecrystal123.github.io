@@ -85,12 +85,26 @@ h1 {
     font-family: 'WebFont';
 	 }
 </style>
+
 <body id="body">
     <div class="toggle-switch" id="toggleSwitch">
         <div class="toggle-knob" id="toggleKnob"></div>
     </div>
       <script src="https://api.fuchenboke.cn/api/dianjibaozha.js"></script>
     <h1>Ender_crystal123</h1>
+    <p id="hitokoto">
+  <a style="color: skyblue" href="#" id="hitokoto_text">:D 获取中...</a>
+</p>
+<script>
+  fetch('https://v1.hitokoto.cn')
+    .then(response => response.json())
+    .then(data => {
+      const hitokoto = document.querySelector('#hitokoto_text')
+      hitokoto.href = `https://hitokoto.cn/?uuid=${data.uuid}`
+      hitokoto.innerText = data.hitokoto
+    })
+    .catch(console.error)
+</script>
     <img src="IMG_6297.jpeg" width=100 /><br/>
     <p style="font-family: 'WebFont'; color: rgb(255, 234, 0);">豪俊金曲</p>
     <embed height="100" width="100" src="q.mp3" />
