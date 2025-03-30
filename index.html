@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ender_crystal123</title>
+      <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js"></script>
 </head> 
 <style> body{
             transition: background-color 0.5s, color 0.5s;
@@ -93,7 +94,7 @@ h1 {
       <script src="https://api.fuchenboke.cn/api/dianjibaozha.js"></script>
     <h1>Ender_crystal123</h1>
     <p id="hitokoto">
-  <a style="color: skyblue" href="#" id="hitokoto_text">:D 获取中...</a>
+  <a style="color: deepskyblue;text-decoration: none" href="#" id="hitokoto_text">:D 获取中...</a>
 </p>
 <script>
   fetch('https://v1.hitokoto.cn')
@@ -122,6 +123,20 @@ h1 {
         </nav>
     <hr/>
     <img src="https://api.likepoems.com/counter/get/@Ecrystal123" width=300/>
+    <hr>
+       <script>
+      $.get('https://api.likepoems.com/img/mc/?json').then((res) => {
+        const { code, url } = res;
+        const img = $('<img/>', {
+          src: url,
+          alt: '示例图片'
+        }).css({
+          width: '50%',
+          height: 'auto'
+        });
+        $("body").append(img);
+      })
+    </script>
     <p>没了()</p>
     <footer>
     <a style="display: flex;justify-content: center;padding: 5px;background-color: #45a1ff;color: #ffffff;font-family: 'WebFont';text-decoration: none;
